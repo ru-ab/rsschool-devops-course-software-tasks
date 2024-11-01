@@ -35,6 +35,13 @@ jobs:
         run: |
           kubectl apply -f jenkins-sa.yaml
 
+      - name: Add Jenkins repo
+        env:
+          KUBECONFIG: /tmp/config
+        run: |
+          helm repo add jenkinsci https://charts.jenkins.io
+          helm repo update
+
       - name: Install Jenkins using Helm
         env:
           KUBECONFIG: /tmp/config
