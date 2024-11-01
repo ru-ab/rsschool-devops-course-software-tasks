@@ -17,19 +17,17 @@ jobs:
         run: |
           echo ${{ secrets.KUBECONFIG }} | base64 -d > /tmp/config
 
+      - name: Create namespace for jenkins
+        env:
+          KUBECONFIG: /tmp/config
+        run: |
+          kubectl get ns jenkins || kubectl create ns jenkins
+
       - name: Create PV for jenkins
+        env:
+          KUBECONFIG: /tmp/config
         run: |
           kubectl apply -f jenkins-volume.yaml
-
-        env:
-          KUBECONFIG: /tmp/config
-
-      - name: Create namespace for jenkins
-        run: |
-          kubectl create namespace jenkins
-
-        env:
-          KUBECONFIG: /tmp/config
 
       - name: Remove kubeconfig info
         run: rm -f /tmp/config
