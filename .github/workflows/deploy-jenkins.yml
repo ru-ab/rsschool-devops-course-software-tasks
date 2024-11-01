@@ -17,17 +17,38 @@ jobs:
         run: |
           echo ${{ secrets.KUBECONFIG }} | base64 -d > /tmp/config
 
-      - name: Create namespace for jenkins
+      - name: Create namespace for Jenkins
         env:
           KUBECONFIG: /tmp/config
         run: |
           kubectl get ns jenkins || kubectl create ns jenkins
 
-      - name: Create PV for jenkins
+      - name: Create PV for Jenkins
         env:
           KUBECONFIG: /tmp/config
         run: |
           kubectl apply -f jenkins-volume.yaml
+
+      - name: Create a service account for Jenkins
+        env:
+          KUBECONFIG: /tmp/config
+        run: |
+          kubectl apply -f jenkins-sa.yaml
+
+      - name: Install Jenkins using Helm
+        env:
+          KUBECONFIG: /tmp/config
+        run: |
+          chart=jenkinsci/jenkins
+          helm install jenkins -n jenkins -f jenkins-values.yaml $chart
+
+      - name: Show admin password
+        env:
+          KUBECONFIG: /tmp/config
+        run: |
+          jsonpath="{.data.jenkins-admin-password}"
+          secret=$(kubectl get secret -n jenkins jenkins -o jsonpath=$jsonpath)
+          echo $(echo $secret | base64 --decode)
 
       - name: Remove kubeconfig info
         run: rm -f /tmp/config
