@@ -24,5 +24,12 @@ jobs:
         env:
           KUBECONFIG: /tmp/config
 
+      - name: Create namespace for jenkins
+        run: |
+          kubectl create namespace jenkins
+
+        env:
+          KUBECONFIG: /tmp/config
+
       - name: Remove kubeconfig info
         run: rm -f /tmp/config
