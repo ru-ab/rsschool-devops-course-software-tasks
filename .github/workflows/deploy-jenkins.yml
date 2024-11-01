@@ -1,6 +1,9 @@
 name: Deploy Jenkins
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    branches:
+      - task_4
 
 jobs:
   deploy:
