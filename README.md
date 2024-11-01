@@ -1,5 +1,9 @@
 # Task 4: Jenkins Installation and Configuration
 
+This repository contains configuration files for deploying Jenkins using Helm.
+
+The infrastructure was set up on AWS using Terraform. The source code can be found here: https://github.com/ru-ab/rsschool-devops-course-tasks/tree/task_4.
+
 ## Install Kubernetes Cluster using k3s
 
 1. Create k3s cluster on the control plane node:
