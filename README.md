@@ -5,7 +5,7 @@
 1. Create k3s cluster on the control plane node:
 
 ```bash
-curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--tls-san X.X.X.X" sh -s - --write-kubeconfig-mode 644
 ```
 
 ## Install Helm
