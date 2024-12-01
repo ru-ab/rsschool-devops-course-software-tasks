@@ -1,0 +1,29 @@
+server:
+  service:
+    type: LoadBalancer
+    ports:
+      http: 8000
+
+  extraScrapeConfigs:
+    - job_name: 'node-exporter'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+        - source_labels:
+            [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
+          action: keep
+          regex: node-exporter;jenkins
+    - job_name: 'kube-state-metrics'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+        - source_labels:
+            [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
+          action: keep
+          regex: kube-state-metrics;jenkins
+
+alertmanager:
+  service:
+    type: LoadBalancer
+    ports:
+      http: 8001
