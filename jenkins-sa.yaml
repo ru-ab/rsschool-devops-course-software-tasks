@@ -40,6 +40,7 @@ rules:
       - namespaces
       - events
       - secrets
+      - networkpolicies
     verbs:
       - create
       - get
