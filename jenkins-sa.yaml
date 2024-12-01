@@ -42,6 +42,7 @@ rules:
       - secrets
       - networkpolicies
       - poddisruptionbudgets
+      - serviceaccounts
     verbs:
       - create
       - get
