@@ -21,6 +21,8 @@ pipeline {
         stage('Deploy Node Exporter') {
             steps {
                 container('helm') {
+                  sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
+                  sh 'helm repo update'
                   sh 'helm upgrade --install node-exporter bitnami/node-exporter'
                 }
             }
