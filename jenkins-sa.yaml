@@ -57,6 +57,7 @@ rules:
       - ''
     resources:
       - nodes
+      - ingresses
     verbs:
       - get
       - list
