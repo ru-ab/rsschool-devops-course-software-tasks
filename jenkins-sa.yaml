@@ -43,6 +43,7 @@ rules:
       - networkpolicies
       - poddisruptionbudgets
       - serviceaccounts
+      - clusterroles
     verbs:
       - create
       - get
