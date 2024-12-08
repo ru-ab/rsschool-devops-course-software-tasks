@@ -1,0 +1,10 @@
+datasources:
+  enabled: true
+  config:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.jenkins.svc.cluster.local:8000
+        isDefault: true

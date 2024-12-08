@@ -43,7 +43,17 @@ pipeline {
                 container('helm') {
                     sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
                     sh 'helm repo update'
-                    sh 'helm upgrade --install prometheus bitnami/prometheus -f ./values.yaml'
+                    sh 'helm upgrade --install prometheus bitnami/prometheus -f ./prometheus-values.yaml'
+                }
+            }
+        }
+
+        stage('Deploy Grafana') {
+            steps {
+                container('helm') {
+                    sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
+                    sh 'helm repo update'
+                    sh 'helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml'
                 }
             }
         }
