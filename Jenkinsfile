@@ -65,7 +65,7 @@ pipeline {
                             kubectl delete secret grafana-admin-secret --ignore-not-found
                             kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD
                             kubectl apply -f ./datasources-secret.yaml
-                            kubectl create configmap node-dashboard --from-file=node-dashboard.json
+                            kubectl create configmap node-dashboard --from-file=node-dashboard.json -o yaml --dry-run | kubectl apply -f - 
                         '''
                     }
                 }
