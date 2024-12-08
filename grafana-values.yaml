@@ -9,8 +9,4 @@ service:
     http: 3000
 
 datasources:
-  enabled: true
-  config:
-    apiVersion: 1
-    datasources:
-      secretName: grafana-datasources-secret
+  secretName: grafana-datasources-secret
