@@ -61,7 +61,10 @@ pipeline {
             steps {
                 container(name: 'kubectl', shell: '/bin/sh') {
                     withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
-                        sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)'
+                        sh '''
+                            kubectl delete secret grafana-admin-secret --ignore-not-found
+                            kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)
+                        '''
                     }
                 }
 
