@@ -63,7 +63,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
                         sh '''
                             kubectl delete secret grafana-admin-secret --ignore-not-found
-                            kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)
+                            kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD
                             kubectl apply -f ./datasources-secret.yaml
                         '''
                     }
