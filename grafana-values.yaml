@@ -10,3 +10,10 @@ service:
 
 datasources:
   secretName: grafana-datasources-secret
+
+dashboardsProvider:
+  enabled: true
+
+dashboardsConfigMaps:
+  - configMapName: node-dashboard
+    fileName: node-dashboard.json
