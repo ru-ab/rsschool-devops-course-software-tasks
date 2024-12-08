@@ -1,3 +1,5 @@
+adminPassword: password
+
 admin:
   existingSecret: grafana-admin-secret
 

@@ -54,8 +54,7 @@ pipeline {
                 container('helm') {
                     sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
                     sh 'helm repo update'
-                    sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD'
-                    sh 'helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml'
+                    sh 'helm upgrade --install grafana bitnami/grafana --set adminPassword=$(echo -n $ADMIN_PASSWORD | base64) -f ./grafana-values.yaml'
                 }
               }
             }
