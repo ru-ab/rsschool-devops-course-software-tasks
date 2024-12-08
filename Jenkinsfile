@@ -64,6 +64,7 @@ pipeline {
                         sh '''
                             kubectl delete secret grafana-admin-secret --ignore-not-found
                             kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)
+                            kubectl apply -f ./datasources-secret.yaml
                         '''
                     }
                 }
