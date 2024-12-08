@@ -15,7 +15,9 @@ pipeline {
               - name: kubectl
                 image: bitnami/kubectl:latest
                 command:
-                - cat
+                  - "/bin/sh"
+                  - "-c"
+                  - "sleep 99d"
                 tty: true
               restartPolicy: Never
           """
@@ -55,19 +57,20 @@ pipeline {
 
         stage('Deploy Grafana') {
             steps {
-              withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
-                  container('kubectl') {
-                      sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)'
-                  }
+                container('kubectl') {
+                    withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
+                        sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)'
+                    }
+                }
 
-                  container('helm') {
-                      sh '''
-                          helm repo add bitnami https://charts.bitnami.com/bitnami'
-                          helm repo update
-                          helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml
-                      '''
-                  }
-              }
+                container('helm') {
+                    sh '''
+                        helm repo add bitnami https://charts.bitnami.com/bitnami'
+                        helm repo update
+                        helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml
+                    '''
+                }
+              
             }
         }
     }
