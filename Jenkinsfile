@@ -57,6 +57,7 @@ pipeline {
                     sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD'
                     sh 'helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml'
                 }
+              }
             }
         }
     }
