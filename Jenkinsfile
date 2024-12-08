@@ -12,6 +12,15 @@ pipeline {
                 command:
                 - cat
                 tty: true
+              - name: kubectl
+                image: bitnami/kubectl:latest
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - "sleep 99d"
+                tty: true
+                securityContext:
+                  runAsUser: 0
               restartPolicy: Never
           """
         }
@@ -43,8 +52,32 @@ pipeline {
                 container('helm') {
                     sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
                     sh 'helm repo update'
-                    sh 'helm upgrade --install prometheus bitnami/prometheus -f ./values.yaml'
+                    sh 'helm upgrade --install prometheus bitnami/prometheus -f ./prometheus-values.yaml'
                 }
+            }
+        }
+
+        stage('Deploy Grafana') {
+            steps {
+                container(name: 'kubectl', shell: '/bin/sh') {
+                    withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
+                        sh '''
+                            kubectl delete secret grafana-admin-secret --ignore-not-found
+                            kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD
+                            kubectl apply -f ./datasources-secret.yaml
+                            kubectl create configmap node-dashboard --from-file=node-dashboard.json -o yaml --dry-run | kubectl apply -f - 
+                        '''
+                    }
+                }
+
+                container('helm') {
+                    sh '''
+                        helm repo add bitnami https://charts.bitnami.com/bitnami
+                        helm repo update
+                        helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml
+                    '''
+                }
+              
             }
         }
     }

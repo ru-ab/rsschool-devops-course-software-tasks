@@ -1,0 +1,17 @@
+admin:
+  existingSecret: grafana-admin-secret
+
+service:
+  type: LoadBalancer
+  ports:
+    http: 3000
+
+datasources:
+  secretName: grafana-datasources-secret
+
+dashboardsProvider:
+  enabled: true
+
+dashboardsConfigMaps:
+  - configMapName: node-dashboard
+    fileName: node-dashboard.json
