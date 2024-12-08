@@ -67,7 +67,7 @@ pipeline {
 
                 container('helm') {
                     sh '''
-                        helm repo add bitnami https://charts.bitnami.com/bitnami'
+                        helm repo add bitnami https://charts.bitnami.com/bitnami
                         helm repo update
                         helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml
                     '''
