@@ -50,9 +50,11 @@ pipeline {
 
         stage('Deploy Grafana') {
             steps {
+              withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
                 container('helm') {
                     sh 'helm repo add bitnami https://charts.bitnami.com/bitnami'
                     sh 'helm repo update'
+                    sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD'
                     sh 'helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml'
                 }
             }

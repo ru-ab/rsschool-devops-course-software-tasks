@@ -1,3 +1,6 @@
+admin:
+  existingSecret: grafana-admin-secret
+
 service:
   type: LoadBalancer
   ports:
