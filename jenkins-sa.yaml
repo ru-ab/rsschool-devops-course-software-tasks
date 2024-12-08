@@ -64,6 +64,7 @@ rules:
       - nodes/metrics
       - nodes/proxy
       - ingresses
+      - limitranges
     verbs:
       - get
       - list
