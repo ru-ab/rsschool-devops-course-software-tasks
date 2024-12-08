@@ -19,6 +19,8 @@ pipeline {
                   - "-c"
                   - "sleep 99d"
                 tty: true
+                securityContext:
+                  runAsUser: 0
               restartPolicy: Never
           """
         }
@@ -57,7 +59,7 @@ pipeline {
 
         stage('Deploy Grafana') {
             steps {
-                container('kubectl') {
+                container(name: 'kubectl', shell: '/bin/sh') {
                     withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
                         sh 'kubectl create secret generic grafana-admin-secret --from-literal=password=$(echo -n "$ADMIN_PASSWORD" | base64)'
                     }
