@@ -65,6 +65,7 @@ rules:
       - nodes/proxy
       - ingresses
       - limitranges
+      - resourcequotas
     verbs:
       - get
       - list
@@ -78,6 +79,43 @@ rules:
       - ingresses/status
     verbs:
       - get
+      - list
+      - watch
+  - apiGroups:
+      - 'admissionregistration.k8s.io'
+    resources:
+      - mutatingwebhookconfigurations
+      - validatingwebhookconfigurations
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - 'autoscaling'
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - 'certificates.k8s.io'
+    resources:
+      - certificatesigningrequests
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - 'coordination.k8s.io'
+    resources:
+      - leases
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - 'storage.k8s.io'
+    resources:
+      - storageclasses
+      - volumeattachments
+    verbs:
       - list
       - watch
 ---
