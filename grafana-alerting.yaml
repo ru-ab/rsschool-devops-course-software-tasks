@@ -13,7 +13,7 @@ data:
           - uid: fe6z0kyggsg01b
             type: email
             settings:
-              addresses: {{ .Values.alerting.email }}
+              addresses: "${ALERTING_EMAIL}"
               singleEmail: false
             disableResolveMessage: false
     groups:
