@@ -1,4 +1,4 @@
-# Task 8: Grafana Installation and Dashboard Creation
+# Task 9: Alertmanager Configuration and Verification
 
 This repository contains a Jenkinsfile for automating the deployment of Prometheus and Grafana.
 
@@ -69,8 +69,25 @@ avg without (mode,cpu) ((
 node_memory_MemFree_bytes / (1024 * 1024)
 ```
 
+#### Alerting Configuration
+
+Email notifications are configured using the Sendgrid service, with the SMTP configuration specified in the `grafana-values.yaml` file.
+
+Email notifications are triggered for the following events:
+
+- CPU usage exceeds 80%
+- Free memory is less than 500MB
+
+The configuration for the Contact Point and Alert Rules is provided in the `grafana-alerting.yaml` file.
+
+Before deployment, it is necessary to add credentials to Jenkins:
+
+- **SMTP_PASSWORD** - password for the SMTP service
+- **FROM_ADDRESS** - email address for SMTP service
+- **ALERTING_EMAIL** - email address for receiving notifications
+
 ## How to Deploy
 
-To deploy, create a new Pipeline in Jenkins and select "Script from SCM," specifying the repository link https://github.com/ru-ab/rsschool-devops-course-software-tasks.git. Additionally, set the branch to `task_8`.
+To deploy, create a new Pipeline in Jenkins and select "Script from SCM," specifying the repository link https://github.com/ru-ab/rsschool-devops-course-software-tasks.git. Additionally, set the branch to `task_9`.
 
 After that, you can either run the Pipeline manually or configure automatic triggers for execution.

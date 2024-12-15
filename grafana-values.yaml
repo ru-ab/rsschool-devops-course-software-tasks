@@ -15,3 +15,12 @@ dashboardsProvider:
 dashboardsConfigMaps:
   - configMapName: node-dashboard
     fileName: node-dashboard.json
+
+smtp:
+  enabled: true
+  host: smtp.sendgrid.net:465
+  user: apikey
+  skipVerify: true
+
+alerting:
+  configMapName: grafana-alerting
