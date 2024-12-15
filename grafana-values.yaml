@@ -20,7 +20,6 @@ smtp:
   enabled: true
   host: smtp.sendgrid.net:465
   user: apikey
-  fromAddress: ruabdrakhmanov@gmail.com
   skipVerify: true
 
 alerting:

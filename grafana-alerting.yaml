@@ -13,7 +13,7 @@ data:
           - uid: fe6z0kyggsg01b
             type: email
             settings:
-              addresses: webmanager00001@gmail.com
+              addresses: {{ .Values.alerting.email }}
               singleEmail: false
             disableResolveMessage: false
     groups:

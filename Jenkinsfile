@@ -72,11 +72,15 @@ pipeline {
                 }
 
                 container('helm') {
-                    withCredentials([string(credentialsId: 'SMTP_PASSWORD', variable: 'SMTP_PASSWORD')]) {
+                    withCredentials([
+                        string(credentialsId: 'SMTP_PASSWORD', variable: 'SMTP_PASSWORD'),
+                        string(credentialsId: 'FROM_ADDRESS', variable: 'FROM_ADDRESS'),
+                        string(credentialsId: 'ALERTING_EMAIL', variable: 'ALERTING_EMAIL')
+                    ]) {
                         sh '''
                             helm repo add bitnami https://charts.bitnami.com/bitnami
                             helm repo update
-                            helm upgrade --install grafana bitnami/grafana --set smtp.password=$SMTP_PASSWORD -f ./grafana-values.yaml
+                            helm upgrade --install grafana bitnami/grafana --set smtp.password=$SMTP_PASSWORD --set smtp.fromAddress=$FROM_ADDRESS --set alerting.email=$ALERTING_EMAIL -f ./grafana-values.yaml
                         '''
                     }
                 }
