@@ -80,6 +80,12 @@ Email notifications are triggered for the following events:
 
 The configuration for the Contact Point and Alert Rules is provided in the `grafana-alerting.yaml` file.
 
+Before deployment, it is necessary to add credentials to Jenkins:
+
+- **SMTP_PASSWORD** - password for the SMTP service
+- **FROM_ADDRESS** - email address for SMTP service
+- **ALERTING_EMAIL** - email address for receiving notifications
+
 ## How to Deploy
 
 To deploy, create a new Pipeline in Jenkins and select "Script from SCM," specifying the repository link https://github.com/ru-ab/rsschool-devops-course-software-tasks.git. Additionally, set the branch to `task_9`.
