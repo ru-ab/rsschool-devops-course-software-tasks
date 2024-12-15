@@ -1,4 +1,4 @@
-# Task 8: Grafana Installation and Dashboard Creation
+# Task 9: Alertmanager Configuration and Verification
 
 This repository contains a Jenkinsfile for automating the deployment of Prometheus and Grafana.
 
