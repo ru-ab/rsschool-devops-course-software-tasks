@@ -18,6 +18,6 @@ dashboardsConfigMaps:
 
 smtp:
   enabled: true
-  host: smtp.sendgrid.net
+  host: smtp.sendgrid.net:465
   user: apikey
   skipVerify: true
