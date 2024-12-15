@@ -25,6 +25,5 @@ smtp:
 
 notifiers:
   configMapName: grafana-contact-points
-
-alerting:
-  configMapName: grafana-alert-rules
+# alerting:
+#   configMapName: grafana-alert-rules
