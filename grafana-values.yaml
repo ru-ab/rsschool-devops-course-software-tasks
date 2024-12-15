@@ -22,3 +22,9 @@ smtp:
   user: apikey
   fromAddress: ruabdrakhmanov@gmail.com
   skipVerify: true
+
+notifiers:
+  configMapName: grafana-contact-points
+
+alerting:
+  configMapName: grafana-alert-rules
