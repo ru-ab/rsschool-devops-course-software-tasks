@@ -71,11 +71,13 @@ pipeline {
                 }
 
                 container('helm') {
-                    sh '''
-                        helm repo add bitnami https://charts.bitnami.com/bitnami
-                        helm repo update
-                        helm upgrade --install grafana bitnami/grafana -f ./grafana-values.yaml
-                    '''
+                    withCredentials([string(credentialsId: 'SMTP_PASSWORD', variable: 'SMTP_PASSWORD')]) {
+                        sh '''
+                            helm repo add bitnami https://charts.bitnami.com/bitnami
+                            helm repo update
+                            helm upgrade --install grafana bitnami/grafana --set smtp.password=$SMTP_PASSWORD -f ./grafana-values.yaml
+                        '''
+                    }
                 }
               
             }

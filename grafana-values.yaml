@@ -15,3 +15,9 @@ dashboardsProvider:
 dashboardsConfigMaps:
   - configMapName: node-dashboard
     fileName: node-dashboard.json
+
+smtp:
+  enabled: true
+  host: smtp.sendgrid.net
+  user: apikey
+  skipVerify: true
