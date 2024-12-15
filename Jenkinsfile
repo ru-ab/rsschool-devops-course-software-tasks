@@ -60,13 +60,16 @@ pipeline {
         stage('Deploy Grafana') {
             steps {
                 container(name: 'kubectl', shell: '/bin/sh') {
-                    withCredentials([string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD')]) {
+                    withCredentials([
+                        string(credentialsId: 'GRAFANA_ADMIN_PASSWORD', variable: 'ADMIN_PASSWORD'),
+                        string(credentialsId: 'ALERTING_EMAIL', variable: 'ALERTING_EMAIL')
+                      ]) {
                         sh '''
                             kubectl delete secret grafana-admin-secret --ignore-not-found
                             kubectl create secret generic grafana-admin-secret --from-literal=password=$ADMIN_PASSWORD
                             kubectl apply -f ./datasources-secret.yaml
                             kubectl create configmap node-dashboard --from-file=node-dashboard.json -o yaml --dry-run | kubectl apply -f - 
-                            kubectl apply -f ./grafana-alerting.yaml
+                            kubectl apply --set alerting.email=$ALERTING_EMAIL -f ./grafana-alerting.yaml
                         '''
                     }
                 }
@@ -74,13 +77,12 @@ pipeline {
                 container('helm') {
                     withCredentials([
                         string(credentialsId: 'SMTP_PASSWORD', variable: 'SMTP_PASSWORD'),
-                        string(credentialsId: 'FROM_ADDRESS', variable: 'FROM_ADDRESS'),
-                        string(credentialsId: 'ALERTING_EMAIL', variable: 'ALERTING_EMAIL')
+                        string(credentialsId: 'FROM_ADDRESS', variable: 'FROM_ADDRESS')
                     ]) {
                         sh '''
                             helm repo add bitnami https://charts.bitnami.com/bitnami
                             helm repo update
-                            helm upgrade --install grafana bitnami/grafana --set smtp.password=$SMTP_PASSWORD --set smtp.fromAddress=$FROM_ADDRESS --set alerting.email=$ALERTING_EMAIL -f ./grafana-values.yaml
+                            helm upgrade --install grafana bitnami/grafana --set smtp.password=$SMTP_PASSWORD --set smtp.fromAddress=$FROM_ADDRESS -f ./grafana-values.yaml
                         '''
                     }
                 }
